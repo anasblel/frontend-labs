@@ -1,54 +1,118 @@
-# My First React App - Lab 1
+# Lab 4: API Integration & Data Management - Weather Dashboard
 
-Welcome to your first React lab! This project is designed to help you understand the fundamental concepts of React by building and correcting various components.
+**Name:** Mohamed Ali Ben Cheikh
 
-## 🚀 Overview
+**Course:** React Development
 
-This application demonstrates the core building blocks of React, including:
-- **Components**: How to structure and import reusable UI pieces.
-- **JSX**: Writing HTML-like code within JavaScript and fixing common syntax errors.
-- **Props**: Passing data from parent to child components.
-- **State**: making components interactive and dynamic.
-- **Lists & Keys**: Rendering multiple items using `.map()`.
-- **Conditional Rendering**: Displaying content based on specific conditions.
+## APIs Used
 
-## 🛠️ Project Structure
+- **Open-Meteo Weather API** - Free weather data (no key required)
+  - Geocoding: https://geocoding-api.open-meteo.com/v1/search
+  - Weather: https://api.open-meteo.com/v1/forecast
+- **JSONPlaceholder** - Mock data for posts/comments
+- **PokeAPI** - Pokemon data
+- **Random User API** - User data generation
+- **GitHub API** - Repository and user data
+- **Open Library API** - Book search
 
-The project follows a standard Vite + React structure:
-- `src/main.jsx`: The entry point that renders the `App` component.
-- `src/App.jsx`: The main container where all lab components are assembled.
-- `src/components/`: A directory containing all the individual components you'll work with:
-    - `Greeting.jsx`: A simple functional component.
-    - `JSXErrors.jsx`: Components used to practice fixing JSX syntax.
-    - `StatusBadge.jsx`: Demonstrates conditional rendering.
-    - `UserCard.jsx`: Shows how to pass simple string props.
-    - `Prpduct.jsx`: Shows how to pass multiple props (strings, numbers, booleans).
-    - `Card.jsx`: Demonstrates the use of `props.children`.
-    - `BlogPost.jsx`: Combines multiple props for a more complex UI.
-    - `MovieList.jsx`: Shows how to render a list of items from an array.
-    - `ToggleButton.jsx`: Introduction to React `useState` hook.
+## Features Implemented
 
-## ⚙️ How to Run
+### Must-Have Features
+- ✅ City search with autocomplete (debounced)
+- ✅ Current weather display (temperature, humidity, wind, pressure)
+- ✅ 7-day forecast with daily high/low temperatures
+- ✅ Loading skeletons and spinners
+- ✅ User-friendly error messages with retry
+- ✅ Weather data caching with TTL (30 minutes)
+- ✅ Recent cities stored in localStorage
+- ✅ Temperature unit toggle (°C/°F)
+- ✅ AbortController for request cancellation
 
-1.  **Install dependencies**:
-    ```bash
-    npm install
-    ```
+### Stretch Goals
+- ✅ Responsive design (mobile and desktop)
+- ✅ Debounced search (300ms)
+- ✅ Smooth transitions and hover effects
+- ✅ Professional gradient UI design
 
-2.  **Start the development server**:
-    ```bash
-    npm run dev
-    ```
+## How to Run
 
-3.  **Open in your browser**:
-    Follow the URL provided in the terminal (usually `http://localhost:5173`).
+```bash
+# Install dependencies
+npm install
 
-## 📝 Lab Tasks
+# Start development server
+npm run dev
 
-1.  **Fixing JSX**: Open `src/components/JSXErrors.jsx` and resolve the syntax errors.
-2.  **Passing Props**: Customize the data passed to `UserCard` and `Product` in `App.jsx`.
-3.  **Conditional Styles**: Modify `StatusBadge.jsx` to change colors based on the status.
-4.  **Composition**: Use the `Card` component to wrap different types of content.
-5.  **State Management**: Implement the toggle logic in `ToggleButton.jsx`.
+# Build for production
+npm run build
+```
 
-Happy coding! 💻
+## No API Keys Required!
+
+All APIs used are free and require no authentication.
+
+## Performance Optimizations
+
+1. **Caching Strategy:**
+   - In-memory cache with TTL (30 minutes for weather)
+   - localStorage for city preferences and recent cities
+   - Cache-first strategy with background refresh
+
+2. **Request Optimization:**
+   - AbortController for canceling stale requests
+   - Debounced search (300ms)
+   - Lazy loading for images
+
+3. **State Management:**
+   - Custom hooks for reusable logic
+   - Centralized API service
+   - Proper cleanup in useEffect
+
+## Known Limitations
+
+- Weather data updates every 30 minutes due to caching
+- Limited to 5 recent cities in localStorage
+- No offline support in this version
+- Rate limiting possible on GitHub API (60 requests/hour unauthenticated)
+
+## Project Structure
+
+```
+lab-4-api-integration/
+├── src/
+│   ├── api/
+│   │   └── weatherApi.js
+│   ├── components/
+│   │   ├── AddPostForm.js
+│   │   ├── AdvancedSearch.js
+│   │   ├── BookSearch.js
+│   │   ├── CancelableDataFetcher.js
+│   │   ├── CachedPokemon.js
+│   │   ├── CachedWeatherApp.js
+│   │   ├── CommitHistory.js
+│   │   ├── CurrentWeather.js
+│   │   ├── DashboardPage.js
+│   │   ├── ErrorMessage.js
+│   │   ├── ForecastList.js
+│   │   ├── GitHubUserLookup.js
+│   │   ├── LoadingSpinner.js
+│   │   ├── PaginatedPosts.js
+│   │   ├── PokemonList.js
+│   │   ├── RecentCities.js
+│   │   ├── SearchCity.js
+│   │   ├── SlowAPIComponent.js
+│   │   ├── TTLCacheDemo.js
+│   │   ├── UserSearch.js
+│   │   └── WeatherApp.js
+│   ├── hooks/
+│   │   ├── useDebounce.js
+│   │   ├── useFetch.js
+│   │   ├── useRecentCities.js
+│   │   └── useWeather.js
+│   ├── utils/
+│   │   └── cacheManager.js
+│   ├── App.jsx
+│   ├── App.css
+│   └── main.jsx
+└── package.json
+```
