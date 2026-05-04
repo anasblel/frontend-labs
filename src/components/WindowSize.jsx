@@ -1,34 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
-function WindowSize() {
-  const [size, setSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
+export default function WindowSize() {
+  const [size, setSize] = useState({ width: window.innerWidth, height: window.innerHeight });
 
   useEffect(() => {
-    function handleResize() {
-      setSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    }
-
+    const handleResize = () => setSize({ width: window.innerWidth, height: window.innerHeight });
+    
     window.addEventListener("resize", handleResize);
+    // Set initial size immediately (resize event only fires on change)
     handleResize();
 
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []); // Empty array = run once on mount
 
-  return (
-    <div>
-      <h2>Window Size</h2>
-      <p>Width: {size.width}</p>
-      <p>Height: {size.height}</p>
-    </div>
-  );
+  return <p>Window: {size.width} x {size.height}px</p>;
 }
-
-export default WindowSize;

@@ -1,45 +1,34 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
-function PostViewer() {
+export default function PostViewer() {
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function fetchPost() {
+    const fetchPost = async () => {
       try {
         setLoading(true);
-
-        const response = await fetch(
-          "https://jsonplaceholder.typicode.com/posts/1"
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch post");
-        }
-
-        const data = await response.json();
+        const res = await fetch("https://jsonplaceholder.typicode.com/posts/1");
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
         setPost(data);
       } catch (err) {
         setError(err.message);
       } finally {
         setLoading(false);
       }
-    }
-
+    };
     fetchPost();
-  }, []);
+  }, []); // Runs once on mount
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading) return <p>Loading post...</p>;
+  if (error) return <p style={{ color: "red" }}>Error: {error}</p>;
 
   return (
-    <div>
-      <h2>Post Viewer</h2>
+    <article>
       <h3>{post.title}</h3>
       <p>{post.body}</p>
-    </div>
+    </article>
   );
 }
-
-export default PostViewer;
