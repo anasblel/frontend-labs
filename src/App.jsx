@@ -1,112 +1,69 @@
-import { useState } from 'react'
-import './App.css'
-import Greeting from './components/Greeting'
-import { FixedComponent1, FixedComponent2, FixedComponent3 } from "./components/JSXErrors"
-import StatusBadge from "./components/StatusBadge"
-import UserCard from "./components/UserCard"
-import Product from "./components/Prpduct"
-import Card from "./components/Card"
-import BlogPost from "./components/BlogPost"
-import MovieList from "./components/MovieList"
-import ToggleButton from "./components/ToggleButton"
+import './App.css'  
+import Counter from './component/Counter';
+import PersonForm from './component/PersonForm';
+import ShoppingList from './component/ShoppingList';
+import AppSettings from './component/AppSettings';
+import ClickTracker from './component/ClickTracker';
+import Calculator from './Calculator';
+import TextEcho from './component/TextEcho';
+import SignupForm from './component/SignupForm';
+import PreferencesForm from './component/PreferencesForm';
+import Thermostat from './component/Thermostat';
+import FruitBasket from './component/FruitBasket';
 
 
+import { useState } from 'react';
+import ProductList from './component/ProductList';
+import ShoppingCart from './component/ShoppingCart';
+import Checkout from './component/Checkout';
+
+const initialProducts = [
+  { id: 1, name: 'Laptop', price: 999 },
+  { id: 2, name: 'Mouse', price: 25 },
+  { id: 3, name: 'Keyboard', price: 75 },
+  { id: 4, name: 'Monitor', price: 299 },
+];
 
 function App() {
+  const [cart, setCart] = useState([]);
 
-  
-  const movies = [
-    { id: 1, title: "The Matrix", director: "Wachowski", year: 1999, rating: 4 },
-    { id: 2, title: "Inception", director: "Nolan", year: 2010, rating: 5 },
-    { id: 3, title: "The Dark Knight", director: "Nolan", year: 2008, rating: 5 },
-    { id: 4, title: "Interstellar", director: "Nolan", year: 2014, rating: 5 }
-  ]
+  const addToCart = (product) => {
+    setCart((prevCart) => {
+      const existingItem = prevCart.find((item) => item.id === product.id);
+      if (existingItem) {
+        return prevCart.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      }
+      return [...prevCart, { ...product, quantity: 1 }];
+    });
+  };
+
+  const removeFromCart = (productId) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
+  };
 
   return (
-    <>
-      <Greeting />
-      <FixedComponent1 />
-      <FixedComponent2 />
-      <FixedComponent3 />
-      <StatusBadge />
-
-      
-
-      <UserCard 
-        name="Anas"
-        email="anas@example.com"
-        role="Developer"
-      />
-
-      <UserCard 
-        name="marwen"
-        email="marwen@example.com"
-        role="Designer"
-      />
-
-      <UserCard 
-        name="amin"
-        email="amin@example.com"
-        role="aminr"
-      />
-
-      <Product
-        title="Laptop"
-        price={99.99}
-        inStock={true}
-        rating={4.5}
-      />
-
-      <Product 
-        title="Phone"
-        price={499}
-        inStock={false}
-        rating={4}
-      />
-
-      <Product 
-        title="Headphones"
-        price={99}
-        inStock={true}
-        rating={5}
-      />
-
-      <Card title="Card 1">
-        <p>Hello from Card 1.</p>
-      </Card>
-      
-      <Card title="Card 2">
-        <p>This is Card 2 content.</p>
-      </Card>
-      
-      <Card title="Card 3">
-        <p>Card 3 says hi!</p>
-      </Card>
-
-
-      <BlogPost
-        title="Learning React"
-        name="Alice"
-        email="alice@example.com"
-        role="Developer"
-        content="React makes building UI easier."
-        date="Jan 15"
-      />
-
-      <BlogPost
-        title="React Tips"
-        name="Bob"
-        email="bob@example.com"
-        role="Designer"
-        content="Use components to organize your UI."
-        date="Jan 20"
-      />
-
-
-      <MovieList movies={movies} />
-      <ToggleButton />
-    </>
-  )
+    <div>
+      <h1>Lab 2</h1>
+      <Counter />
+      <PersonForm />
+      <ShoppingList />
+      <AppSettings />
+      <ClickTracker />
+      <Calculator />
+      <TextEcho />
+      <SignupForm />
+      <PreferencesForm />
+      <Thermostat />
+      <FruitBasket />
+      <ProductList products={initialProducts} onAdd={addToCart} />
+      <ShoppingCart cart={cart} onRemove={removeFromCart} />
+      <Checkout cart={cart} />
+    </div>
+  );
 }
 
 export default App
